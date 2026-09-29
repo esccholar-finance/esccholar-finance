@@ -6,6 +6,7 @@ import type {
   Payment,
   Transaction,
   PackageItem,
+  UpcomingPayment,
 } from "../types/finance";
 
 export class FinanceDatabase extends Dexie {
@@ -15,6 +16,7 @@ export class FinanceDatabase extends Dexie {
   transactions!: Table<Transaction, number>;
   activityLogs!: Table<ActivityLog, number>;
   packageItems!: Table<PackageItem, number>;
+  upcomingPayments!: Table<UpcomingPayment, number>;
 
   constructor() {
     super("ESccholarFinanceDB");
@@ -29,6 +31,7 @@ export class FinanceDatabase extends Dexie {
       activityLogs:
         "++id, action, entityType, entityId, academyId, createdAt",
     });
+
     this.version(6).stores({
       academies: "++id, name, status, expiryDate, createdAt",
       categories: "++id, name, type, isActive, createdAt",
@@ -69,18 +72,14 @@ export class FinanceDatabase extends Dexie {
       const allPayments = await payments.toArray();
 
       for (const payment of allPayments) {
-        if (payment.id === undefined) {
-          continue;
-        }
+        if (payment.id === undefined) continue;
 
         const existingTransaction = await transactions
           .where("paymentId")
           .equals(payment.id)
           .first();
 
-        if (existingTransaction) {
-          continue;
-        }
+        if (existingTransaction) continue;
 
         await transactions.add({
           paymentId: payment.id,
@@ -134,9 +133,22 @@ export class FinanceDatabase extends Dexie {
         }
       }
     });
+
+    this.version(9).stores({
+      academies: "++id, name, status, expiryDate, createdAt",
+      categories: "++id, name, type, isActive, createdAt",
+      payments:
+        "++id, academyId, packageItemId, paymentMethod, paymentDate, invoiceNumber, receiptNumber, createdAt",
+      transactions:
+        "++id, paymentId, type, categoryId, academyId, amount, transactionDate, createdAt",
+      activityLogs:
+        "++id, action, entityType, entityId, academyId, createdAt",
+      packageItems:
+        "++id, academyId, name, amount, createdAt",
+      upcomingPayments:
+        "++id, academyId, dueDate, createdAt",
+    });
   }
 }
 
 export const db = new FinanceDatabase();
-
-

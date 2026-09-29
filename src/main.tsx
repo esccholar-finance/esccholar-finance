@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+﻿import React, { lazy, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from "./App";
@@ -34,6 +34,11 @@ const AcademyDetailsPage = lazy(() =>
   })),
 );
 
+const UpcomingPaymentsPage = lazy(() =>
+  import("./pages/reports/UpcomingPaymentsPage").then((module) => ({
+    default: module.UpcomingPaymentsPage,
+  })),
+);
 const ReportsPage = lazy(() =>
   import("./pages/reports/ReportsPage").then((module) => ({
     default: module.ReportsPage,
@@ -72,6 +77,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               element={<AcademyDetailsPage />}
             />
             <Route path="reports" element={<ReportsPage />} />
+            <Route path="upcoming-payments" element={<UpcomingPaymentsPage />} />
             <Route
               path="receipts/:paymentId"
               element={<ReceiptPage />}
@@ -82,3 +88,4 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     </BrowserRouter>
   </React.StrictMode>,
 );
+

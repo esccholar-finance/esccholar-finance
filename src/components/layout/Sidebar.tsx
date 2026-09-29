@@ -1,5 +1,6 @@
 ﻿import {
   BarChart3,
+  Clock3,
   Building2,
   LayoutDashboard,
   ReceiptText,
@@ -20,6 +21,7 @@ const navigation = [
   { label: "Categories", path: "/categories", icon: Tags },
   { label: "Academies", path: "/academies", icon: Building2 },
   { label: "Reports", path: "/reports", icon: BarChart3 },
+  { label: "Upcoming Payments", path: "/upcoming-payments", icon: Clock3 },
 ];
 
 export function Sidebar({ mobileOpen, onClose }: SidebarProps) {
@@ -108,3 +110,4 @@ export function Sidebar({ mobileOpen, onClose }: SidebarProps) {
     </>
   );
 }
+

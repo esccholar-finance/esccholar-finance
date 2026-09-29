@@ -41,18 +41,13 @@ export interface Academy {
   name: string;
   ownerName?: string;
   mobile?: string;
-
   paymentPlan: PaymentPlan;
   customPlan?: string;
   packageAmount: number;
   packageDiscount?: number;
-
   startDate: string;
   expiryDate: string;
-
   status: AcademyStatus;
-
-
   createdAt: string;
   updatedAt: string;
 }
@@ -83,6 +78,17 @@ export interface PackageItem {
   updatedAt: string;
 }
 
+export interface UpcomingPayment {
+  id?: number;
+  academyId: number;
+  amount: number;
+  paidAmount?: number;
+  dueDate: string;
+  note?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface Category {
   id?: number;
   name: string;
@@ -107,19 +113,15 @@ export interface Transaction {
   createdAt: string;
   updatedAt: string;
 }
+
 export interface ActivityLog {
   id?: number;
   action: ActivityAction;
   entityType: ActivityEntity;
   entityId?: number;
   academyId?: number;
-
   title: string;
   description: string;
-
   metadata?: Record<string, unknown>;
-
   createdAt: string;
 }
-
-
